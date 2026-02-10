@@ -7,7 +7,9 @@ use std::sync::Arc;
 
 use accesskit::{ActionRequest, NodeId, TreeUpdate};
 use dpi::{LogicalPosition, LogicalSize, PhysicalSize};
+#[cfg(feature = "text")]
 use parley::fontique::{Blob, Collection, CollectionOptions, FamilyId, FontInfo, SourceCache};
+#[cfg(feature = "text")]
 use parley::{FontContext, LayoutContext};
 use tracing::{debug, info_span, warn};
 use tree_arena::{ArenaMut, TreeArena};
@@ -15,11 +17,13 @@ use vello::Scene;
 use vello::kurbo::{Point, Rect, Size};
 
 use crate::app::layer_stack::LayerStack;
+#[cfg(feature = "text")]
+use crate::core::BrushIndex;
 use crate::core::{
-    AccessCtx, AccessEvent, BrushIndex, CursorIcon, DefaultProperties, ErasedAction, FromDynWidget,
-    Handled, Ime, LayerType, NewWidget, PointerEvent, PropertiesRef, QueryCtx, ResizeDirection,
-    TextEvent, Widget, WidgetArena, WidgetArenaNode, WidgetId, WidgetMut, WidgetPod, WidgetRef,
-    WidgetState, WidgetTag, WidgetTagInner, WindowEvent,
+    AccessCtx, AccessEvent, CursorIcon, DefaultProperties, ErasedAction, FromDynWidget, Handled,
+    Ime, LayerType, NewWidget, PointerEvent, PropertiesRef, QueryCtx, ResizeDirection, TextEvent,
+    Widget, WidgetArena, WidgetArenaNode, WidgetId, WidgetMut, WidgetPod, WidgetRef, WidgetState,
+    WidgetTag, WidgetTagInner, WindowEvent,
 };
 use crate::passes::accessibility::run_accessibility_pass;
 use crate::passes::anim::run_update_anim_pass;
@@ -125,6 +129,7 @@ pub(crate) struct RenderRootState {
 
     /// Cache for Parley font data.
     // TODO: move font context out of RenderRootState so that we only have it once per app
+    #[cfg(feature = "text")]
     pub(crate) font_context: FontContext,
 
     /// Whether the loaded fonts have changed since the last layout pass.
@@ -135,6 +140,7 @@ pub(crate) struct RenderRootState {
     pub(crate) fonts_changed: bool,
 
     /// Cache for Parley text layout data.
+    #[cfg(feature = "text")]
     pub(crate) text_layout_context: LayoutContext<BrushIndex>,
 
     /// List of callbacks that will run in the next `mutate` pass.
@@ -378,6 +384,7 @@ impl RenderRoot {
             },
         };
 
+        #[cfg(feature = "text")]
         if let Some(test_font_data) = test_font {
             // We don't use `register_fonts` here because that requests a global relayout.
             // However, because we are not yet fully initialised (we are before the below call
@@ -526,6 +533,7 @@ impl RenderRoot {
     ///
     /// Returns a list of pairs each containing the family identifier and fonts
     /// added to that family.
+    #[cfg(feature = "text")]
     pub fn register_fonts(&mut self, data: Blob<u8>) -> Vec<(FamilyId, Vec<FontInfo>)> {
         let ret = self
             .global_state

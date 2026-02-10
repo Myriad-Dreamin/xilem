@@ -17,6 +17,7 @@ targets = []
 
 [features]
 default = ["masonry/default"]
+text = ["masonry/text"]
 
 [dependencies]
 xilem_core.workspace = true

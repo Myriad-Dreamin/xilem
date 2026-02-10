@@ -21,13 +21,15 @@ default = ["vello/default"]
 # https://github.com/wolfpld/tracy can be connected to when this feature is enabled.
 tracy = ["dep:tracing-tracy", "tracing-tracy/enable", "vello/wgpu-profiler"]
 
+text = ["parley"]
+
 [dependencies]
 accesskit.workspace = true
 anymap3 = "1.0.1"
 anymore.workspace = true
 cursor-icon = "1.2.0"
 dpi.workspace = true
-parley.workspace = true
+parley = { workspace = true, optional = true }
 smallvec.workspace = true
 time = { workspace = true, features = ["macros", "formatting"] }
 tracing = { workspace = true, features = ["default"] }

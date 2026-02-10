@@ -9,13 +9,16 @@ use std::collections::hash_map::Entry;
 use accesskit::{NodeId, TreeUpdate};
 use anymore::AnyDebug;
 use dpi::{LogicalPosition, PhysicalPosition};
+#[cfg(feature = "text")]
 use parley::{FontContext, LayoutContext};
 use tracing::{trace, warn};
 use tree_arena::{ArenaMut, ArenaMutList, ArenaRefList};
 
 use crate::app::{MutateCallback, RenderRootSignal, RenderRootState};
+#[cfg(feature = "text")]
+use crate::core::BrushIndex;
 use crate::core::{
-    AllowRawMut, BrushIndex, DefaultProperties, ErasedAction, FromDynWidget, LayerType, NewWidget,
+    AllowRawMut, DefaultProperties, ErasedAction, FromDynWidget, LayerType, NewWidget,
     PropertiesMut, PropertiesRef, ResizeDirection, Widget, WidgetArenaNode, WidgetId, WidgetMut,
     WidgetPod, WidgetRef, WidgetState,
 };
@@ -357,6 +360,7 @@ impl_context_method!(
         ///
         /// Any cached text layouts should be invalidated in the layout pass when [`Self::fonts_changed`]
         /// returns `true`.
+        #[cfg(feature = "text")]
         pub fn text_contexts(&mut self) -> (&mut FontContext, &mut LayoutContext<BrushIndex>) {
             (
                 &mut self.global_state.font_context,

@@ -77,9 +77,11 @@
 #![expect(missing_debug_implementations, reason = "Deferred: Noisy")]
 #![expect(clippy::cast_possible_truncation, reason = "Deferred: Noisy")]
 
+#[cfg(feature = "text")]
+pub use parley;
 pub use vello::peniko::color::palette;
 pub use vello::{kurbo, peniko};
-pub use {accesskit, anymore, dpi, parley, ui_events, vello};
+pub use {accesskit, anymore, dpi, ui_events, vello};
 
 // TODO - re-add #[doc(hidden)]
 pub mod doc;

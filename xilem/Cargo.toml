@@ -33,6 +33,7 @@ name = "android.permission.INTERNET"
 
 [features]
 default = ["masonry/default", "masonry_winit/default"]
+text = ["masonry/text", "masonry_winit/text", "xilem_masonry/text"]
 
 [dependencies]
 xilem_core.workspace = true

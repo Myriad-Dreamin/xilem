@@ -154,6 +154,7 @@ pub fn fill_color(scene: &mut Scene, path: &impl Shape, color: Color) {
 // ---
 
 /// Convert a 2d rectangle from Parley to one used for drawing in Vello and other maths.
+#[cfg(feature = "text")]
 pub fn bounding_box_to_rect(bb: parley::BoundingBox) -> vello::kurbo::Rect {
     vello::kurbo::Rect {
         x0: bb.x0,

@@ -7,6 +7,7 @@ mod contexts;
 mod events;
 mod layer;
 mod properties;
+#[cfg(feature = "text")]
 mod text;
 mod widget;
 mod widget_arena;
@@ -21,6 +22,7 @@ pub use contexts::*;
 pub use events::*;
 pub use layer::*;
 pub use properties::*;
+#[cfg(feature = "text")]
 pub use text::*;
 pub use widget::*;
 pub use widget_mut::*;

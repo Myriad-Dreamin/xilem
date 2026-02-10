@@ -17,6 +17,7 @@ targets = []
 
 [features]
 default = []
+text = ["masonry_core/text"]
 
 [dependencies]
 accesskit_consumer.workspace = true

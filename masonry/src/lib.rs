@@ -217,11 +217,14 @@ pub mod theme;
 pub mod widgets;
 
 pub use accesskit;
+#[cfg(feature = "text")]
+pub use parley;
+#[cfg(feature = "text")]
 pub use parley::{Alignment as TextAlign, AlignmentOptions as TextAlignOptions};
 pub use vello::peniko::color::palette;
 pub use vello::{kurbo, peniko};
-pub use {dpi, parley, vello};
+pub use {dpi, vello};
 
 pub use masonry_core::{app, core, layout, ui_events, util};
-#[cfg(any(feature = "testing", test))]
+#[cfg(test)]
 pub use masonry_testing as testing;
