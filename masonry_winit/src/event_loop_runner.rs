@@ -157,10 +157,12 @@ impl Window {
                 },
                 RenderRootOptions {
                     default_properties,
+                    #[cfg(feature = "text")]
                     use_system_fonts: true,
                     size_policy: WindowSizePolicy::User,
                     size,
                     scale_factor,
+                    #[cfg(feature = "text")]
                     test_font: None,
                 },
             ),

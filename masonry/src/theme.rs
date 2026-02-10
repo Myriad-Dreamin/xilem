@@ -5,21 +5,28 @@
 
 #![allow(missing_docs, reason = "Names are self-explanatory.")]
 
+#[cfg(feature = "text")]
 use parley::{GenericFamily, LineHeight};
 
-use crate::core::{DefaultProperties, StyleProperty, StyleSet};
+#[cfg(feature = "text")]
+use crate::core::{StyleSet, StyleProperty};
+
+use crate::core::{DefaultProperties};
 use crate::layout::Length;
 use crate::peniko::Color;
 use crate::properties::{
-    ActiveBackground, Background, BarColor, BorderColor, BorderWidth, CaretColor, CheckmarkColor,
-    CheckmarkStrokeWidth, ContentColor, CornerRadius, DisabledBackground, DisabledCheckmarkColor,
-    DisabledContentColor, FocusedBorderColor, Gap, HoveredBorderColor, Padding, PlaceholderColor,
-    SelectionColor, ThumbColor, ThumbRadius, ToggledBackground, TrackThickness,
-    UnfocusedSelectionColor,
+    ActiveBackground, Background, BorderColor, BorderWidth, ContentColor, CornerRadius,
+    DisabledBackground, FocusedBorderColor, Gap, HoveredBorderColor, ThumbColor, ThumbRadius,
+    ToggledBackground, TrackThickness,
 };
-use crate::widgets::{
-    Button, Checkbox, Divider, Flex, Grid, Label, ProgressBar, Spinner, Switch, TextArea, TextInput,
+#[cfg(any(feature = "text", test))]
+use crate::properties::{
+    BarColor, CaretColor, CheckmarkColor, CheckmarkStrokeWidth, DisabledCheckmarkColor,
+    DisabledContentColor, Padding, PlaceholderColor, SelectionColor, UnfocusedSelectionColor,
 };
+#[cfg(any(feature = "text", test))]
+use crate::widgets::{Button, Checkbox, Divider, Label, ProgressBar, TextArea, TextInput};
+use crate::widgets::{Flex, Grid, Spinner, Switch};
 
 /// Default color for the app background.
 ///
@@ -61,41 +68,44 @@ pub const WIDGET_CONTROL_COMPONENT_PADDING: Length = Length::const_px(4.0);
 pub fn default_property_set() -> DefaultProperties {
     let mut properties = DefaultProperties::new();
 
-    // Button
-    properties.insert::<Button, _>(Padding::from_vh(6., 16.));
-    properties.insert::<Button, _>(CornerRadius { radius: 6. });
-    properties.insert::<Button, _>(BorderWidth {
-        width: BORDER_WIDTH,
-    });
+    #[cfg(any(feature = "text", test))]
+    {
+        // Button
+        properties.insert::<Button, _>(Padding::from_vh(6., 16.));
+        properties.insert::<Button, _>(CornerRadius { radius: 6. });
+        properties.insert::<Button, _>(BorderWidth {
+            width: BORDER_WIDTH,
+        });
 
-    properties.insert::<Button, _>(Background::Color(ZYNC_800));
-    properties.insert::<Button, _>(ActiveBackground(Background::Color(ZYNC_700)));
-    properties.insert::<Button, _>(DisabledBackground(Background::Color(Color::BLACK)));
-    properties.insert::<Button, _>(BorderColor { color: ZYNC_700 });
-    properties.insert::<Button, _>(HoveredBorderColor(BorderColor { color: ZYNC_500 }));
-    properties.insert::<Button, _>(FocusedBorderColor(BorderColor { color: FOCUS_COLOR }));
+        properties.insert::<Button, _>(Background::Color(ZYNC_800));
+        properties.insert::<Button, _>(ActiveBackground(Background::Color(ZYNC_700)));
+        properties.insert::<Button, _>(DisabledBackground(Background::Color(Color::BLACK)));
+        properties.insert::<Button, _>(BorderColor { color: ZYNC_700 });
+        properties.insert::<Button, _>(HoveredBorderColor(BorderColor { color: ZYNC_500 }));
+        properties.insert::<Button, _>(FocusedBorderColor(BorderColor { color: FOCUS_COLOR }));
 
-    // Checkbox
-    properties.insert::<Checkbox, _>(CornerRadius { radius: 4. });
-    properties.insert::<Checkbox, _>(BorderWidth {
-        width: BORDER_WIDTH,
-    });
+        // Checkbox
+        properties.insert::<Checkbox, _>(CornerRadius { radius: 4. });
+        properties.insert::<Checkbox, _>(BorderWidth {
+            width: BORDER_WIDTH,
+        });
 
-    properties.insert::<Checkbox, _>(Background::Color(ZYNC_800));
-    properties.insert::<Checkbox, _>(ActiveBackground(Background::Color(ZYNC_700)));
-    properties.insert::<Checkbox, _>(DisabledBackground(Background::Color(Color::BLACK)));
-    properties.insert::<Checkbox, _>(BorderColor { color: ZYNC_700 });
-    properties.insert::<Checkbox, _>(HoveredBorderColor(BorderColor { color: ZYNC_500 }));
-    properties.insert::<Checkbox, _>(FocusedBorderColor(BorderColor { color: FOCUS_COLOR }));
+        properties.insert::<Checkbox, _>(Background::Color(ZYNC_800));
+        properties.insert::<Checkbox, _>(ActiveBackground(Background::Color(ZYNC_700)));
+        properties.insert::<Checkbox, _>(DisabledBackground(Background::Color(Color::BLACK)));
+        properties.insert::<Checkbox, _>(BorderColor { color: ZYNC_700 });
+        properties.insert::<Checkbox, _>(HoveredBorderColor(BorderColor { color: ZYNC_500 }));
+        properties.insert::<Checkbox, _>(FocusedBorderColor(BorderColor { color: FOCUS_COLOR }));
 
-    properties.insert::<Checkbox, _>(CheckmarkStrokeWidth { width: 2.0 });
-    properties.insert::<Checkbox, _>(CheckmarkColor { color: TEXT_COLOR });
-    properties.insert::<Checkbox, _>(DisabledCheckmarkColor(CheckmarkColor {
-        color: DISABLED_TEXT_COLOR,
-    }));
+        properties.insert::<Checkbox, _>(CheckmarkStrokeWidth { width: 2.0 });
+        properties.insert::<Checkbox, _>(CheckmarkColor { color: TEXT_COLOR });
+        properties.insert::<Checkbox, _>(DisabledCheckmarkColor(CheckmarkColor {
+            color: DISABLED_TEXT_COLOR,
+        }));
 
-    // Divider
-    properties.insert::<Divider, _>(ContentColor::new(ZYNC_500));
+        // Divider
+        properties.insert::<Divider, _>(ContentColor::new(ZYNC_500));
+    }
 
     // Switch
     properties.insert::<Switch, _>(CornerRadius { radius: 10. }); // Full pill shape
@@ -119,61 +129,66 @@ pub fn default_property_set() -> DefaultProperties {
 
     // Grid
     properties.insert::<Grid, _>(Gap::ZERO);
+    #[cfg(any(feature = "text", test))]
+    {
+        // TextInput
+        properties.insert::<TextInput, _>(Padding::from_vh(6., 12.));
+        properties.insert::<TextInput, _>(CornerRadius { radius: 4. });
+        properties.insert::<TextInput, _>(BorderWidth {
+            width: BORDER_WIDTH,
+        });
+        properties.insert::<TextInput, _>(BorderColor { color: ZYNC_600 });
+        properties.insert::<TextInput, _>(FocusedBorderColor(BorderColor { color: FOCUS_COLOR }));
+        properties.insert::<TextInput, _>(PlaceholderColor::new(PLACEHOLDER_COLOR));
+        properties.insert::<TextInput, _>(CaretColor { color: TEXT_COLOR });
+        properties.insert::<TextInput, _>(SelectionColor {
+            color: ACCENT_COLOR,
+        });
+        properties.insert::<TextInput, _>(UnfocusedSelectionColor(SelectionColor {
+            color: DISABLED_TEXT_COLOR,
+        }));
+        properties.insert::<TextInput, _>(Background::Color(TEXT_BACKGROUND_COLOR));
+        properties
+            .insert::<TextInput, _>(DisabledBackground(Background::Color(TEXT_BACKGROUND_COLOR)));
 
-    // TextInput
-    properties.insert::<TextInput, _>(Padding::from_vh(6., 12.));
-    properties.insert::<TextInput, _>(CornerRadius { radius: 4. });
-    properties.insert::<TextInput, _>(BorderWidth {
-        width: BORDER_WIDTH,
-    });
-    properties.insert::<TextInput, _>(BorderColor { color: ZYNC_600 });
-    properties.insert::<TextInput, _>(FocusedBorderColor(BorderColor { color: FOCUS_COLOR }));
-    properties.insert::<TextInput, _>(PlaceholderColor::new(PLACEHOLDER_COLOR));
-    properties.insert::<TextInput, _>(CaretColor { color: TEXT_COLOR });
-    properties.insert::<TextInput, _>(SelectionColor {
-        color: ACCENT_COLOR,
-    });
-    properties.insert::<TextInput, _>(UnfocusedSelectionColor(SelectionColor {
-        color: DISABLED_TEXT_COLOR,
-    }));
-    properties.insert::<TextInput, _>(Background::Color(TEXT_BACKGROUND_COLOR));
-    properties.insert::<TextInput, _>(DisabledBackground(Background::Color(TEXT_BACKGROUND_COLOR)));
+        // TextArea
+        properties.insert::<TextArea<false>, _>(ContentColor::new(TEXT_COLOR));
+        properties.insert::<TextArea<false>, _>(DisabledContentColor(ContentColor::new(
+            DISABLED_TEXT_COLOR,
+        )));
+        properties.insert::<TextArea<false>, _>(CaretColor { color: TEXT_COLOR });
+        properties.insert::<TextArea<false>, _>(SelectionColor {
+            color: ACCENT_COLOR,
+        });
+        properties.insert::<TextArea<false>, _>(UnfocusedSelectionColor(SelectionColor {
+            color: DISABLED_TEXT_COLOR,
+        }));
+        properties.insert::<TextArea<true>, _>(ContentColor::new(TEXT_COLOR));
+        properties.insert::<TextArea<true>, _>(DisabledContentColor(ContentColor::new(
+            DISABLED_TEXT_COLOR,
+        )));
+        properties.insert::<TextArea<true>, _>(CaretColor { color: TEXT_COLOR });
+        properties.insert::<TextArea<true>, _>(SelectionColor {
+            color: ACCENT_COLOR,
+        });
+        properties.insert::<TextArea<true>, _>(UnfocusedSelectionColor(SelectionColor {
+            color: DISABLED_TEXT_COLOR,
+        }));
 
-    // TextArea
-    properties.insert::<TextArea<false>, _>(ContentColor::new(TEXT_COLOR));
-    properties
-        .insert::<TextArea<false>, _>(DisabledContentColor(ContentColor::new(DISABLED_TEXT_COLOR)));
-    properties.insert::<TextArea<false>, _>(CaretColor { color: TEXT_COLOR });
-    properties.insert::<TextArea<false>, _>(SelectionColor {
-        color: ACCENT_COLOR,
-    });
-    properties.insert::<TextArea<false>, _>(UnfocusedSelectionColor(SelectionColor {
-        color: DISABLED_TEXT_COLOR,
-    }));
-    properties.insert::<TextArea<true>, _>(ContentColor::new(TEXT_COLOR));
-    properties
-        .insert::<TextArea<true>, _>(DisabledContentColor(ContentColor::new(DISABLED_TEXT_COLOR)));
-    properties.insert::<TextArea<true>, _>(CaretColor { color: TEXT_COLOR });
-    properties.insert::<TextArea<true>, _>(SelectionColor {
-        color: ACCENT_COLOR,
-    });
-    properties.insert::<TextArea<true>, _>(UnfocusedSelectionColor(SelectionColor {
-        color: DISABLED_TEXT_COLOR,
-    }));
+        // Label
+        properties.insert::<Label, _>(ContentColor::new(TEXT_COLOR));
+        properties.insert::<Label, _>(DisabledContentColor(ContentColor::new(DISABLED_TEXT_COLOR)));
 
-    // Label
-    properties.insert::<Label, _>(ContentColor::new(TEXT_COLOR));
-    properties.insert::<Label, _>(DisabledContentColor(ContentColor::new(DISABLED_TEXT_COLOR)));
+        // ProgressBar
+        properties.insert::<ProgressBar, _>(CornerRadius { radius: 2. });
+        properties.insert::<ProgressBar, _>(BorderWidth {
+            width: BORDER_WIDTH,
+        });
 
-    // ProgressBar
-    properties.insert::<ProgressBar, _>(CornerRadius { radius: 2. });
-    properties.insert::<ProgressBar, _>(BorderWidth {
-        width: BORDER_WIDTH,
-    });
-
-    properties.insert::<ProgressBar, _>(Background::Color(ZYNC_900));
-    properties.insert::<ProgressBar, _>(BorderColor { color: ZYNC_800 });
-    properties.insert::<ProgressBar, _>(BarColor(ACCENT_COLOR));
+        properties.insert::<ProgressBar, _>(Background::Color(ZYNC_900));
+        properties.insert::<ProgressBar, _>(BorderColor { color: ZYNC_800 });
+        properties.insert::<ProgressBar, _>(BarColor(ACCENT_COLOR));
+    }
 
     // Spinner
     properties.insert::<Spinner, _>(ContentColor::new(TEXT_COLOR));
@@ -182,6 +197,7 @@ pub fn default_property_set() -> DefaultProperties {
 }
 
 /// Applies the default text styles for Masonry into `styles`.
+#[cfg(feature = "text")]
 pub fn default_text_styles(styles: &mut StyleSet) {
     styles.insert(StyleProperty::LineHeight(LineHeight::FontSizeRelative(1.2)));
     styles.insert(GenericFamily::SystemUi.into());

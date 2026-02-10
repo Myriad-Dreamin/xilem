@@ -10,12 +10,6 @@
 //!
 //! All of these have the same set of global styling options, and can contain rich text
 
-/// A reference counted string slice.
-///
-/// This is a data-friendly way to represent strings in Masonry. Unlike `String`
-/// it cannot be mutated, but unlike `String` it can be cheaply cloned.
-pub type ArcStr = std::sync::Arc<str>;
-
 /// The Parley [`Brush`] used within Masonry.
 ///
 /// This enables updating of brush details without performing relayouts;

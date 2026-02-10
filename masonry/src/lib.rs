@@ -217,9 +217,9 @@ pub mod theme;
 pub mod widgets;
 
 pub use accesskit;
-#[cfg(feature = "text")]
+#[cfg(any(feature = "text", test))]
 pub use parley;
-#[cfg(feature = "text")]
+#[cfg(any(feature = "text", test))]
 pub use parley::{Alignment as TextAlign, AlignmentOptions as TextAlignOptions};
 pub use vello::peniko::color::palette;
 pub use vello::{kurbo, peniko};

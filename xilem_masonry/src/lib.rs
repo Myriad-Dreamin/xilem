@@ -52,6 +52,8 @@ pub use view_ctx::ViewCtx;
 pub use widget_view::{WidgetView, WidgetViewSequence};
 
 // TODO - Remove these re-exports and fix the places in the crate that use them
+#[cfg(feature = "text")]
 pub(crate) use masonry::parley::Alignment as TextAlign;
 pub(crate) use masonry::peniko::Color;
+#[cfg(feature = "text")]
 pub(crate) use masonry::widgets::InsertNewline;

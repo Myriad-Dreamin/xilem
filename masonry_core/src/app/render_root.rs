@@ -202,6 +202,7 @@ pub struct RenderRootOptions {
 
     /// If true, `fontique` will provide access to system fonts
     /// using platform-specific APIs.
+    #[cfg(feature = "text")]
     pub use_system_fonts: bool,
 
     /// Defines how the window size should be determined.
@@ -224,6 +225,7 @@ pub struct RenderRootOptions {
     ///
     /// We expect to develop a much more fully-featured font API in the future, but
     /// this is necessary for our testing of Masonry.
+    #[cfg(feature = "text")]
     pub test_font: Option<Blob<u8>>,
 }
 
@@ -321,10 +323,12 @@ impl RenderRoot {
     ) -> Self {
         let RenderRootOptions {
             default_properties,
+            #[cfg(feature = "text")]
             use_system_fonts,
             size_policy,
             size,
             scale_factor,
+            #[cfg(feature = "text")]
             test_font,
         } = options;
         let debug_paint = std::env::var("MASONRY_DEBUG_PAINT").is_ok_and(|it| !it.is_empty());
@@ -355,6 +359,7 @@ impl RenderRoot {
                 active_path: Vec::new(),
                 pointer_capture_target: None,
                 cursor_icon: CursorIcon::Default,
+                #[cfg(feature = "text")]
                 font_context: FontContext {
                     collection: Collection::new(CollectionOptions {
                         system_fonts: use_system_fonts,
@@ -363,6 +368,7 @@ impl RenderRoot {
                     source_cache: SourceCache::default(),
                 },
                 fonts_changed: false,
+                #[cfg(feature = "text")]
                 text_layout_context: LayoutContext::new(),
                 mutate_callbacks: Vec::new(),
                 is_ime_active: false,

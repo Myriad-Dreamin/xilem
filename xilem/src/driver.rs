@@ -309,6 +309,7 @@ where
 
     fn on_start(&mut self, state: &mut MasonryState<'_>) {
         // self.fonts is never used again, so we may as well deallocate it.
+        #[cfg(feature = "text")]
         let fonts = std::mem::take(&mut self.fonts);
 
         for root in state.roots() {
@@ -321,6 +322,7 @@ where
             }
 
             // Register all provided fonts
+            #[cfg(feature = "text")]
             for font in &fonts {
                 // We currently don't do anything with the resulting family information,
                 // because we don't have an easy way to return this to the application.

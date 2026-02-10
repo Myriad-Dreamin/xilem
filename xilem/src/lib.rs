@@ -162,9 +162,12 @@ pub use xilem_core as core;
 pub use xilem_masonry::style;
 pub use xilem_masonry::view;
 
+#[cfg(feature = "text")]
 pub use masonry::parley::Alignment as TextAlign;
+#[cfg(feature = "text")]
 pub use masonry::parley::style::FontWeight;
 pub use masonry::peniko::{Blob, Color, ImageBrush, ImageFormat};
+#[cfg(feature = "text")]
 pub use masonry::widgets::InsertNewline;
 pub use masonry_winit::app::{EventLoop, EventLoopBuilder, WindowId};
 

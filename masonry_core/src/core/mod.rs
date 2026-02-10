@@ -37,12 +37,18 @@ pub use ui_events::pointer::{
     PointerButton, PointerButtonEvent, PointerEvent, PointerGesture, PointerGestureEvent,
     PointerId, PointerInfo, PointerScrollEvent, PointerState, PointerType, PointerUpdate,
 };
-pub use ui_events::{ScrollDelta, keyboard, pointer};
+pub use ui_events::{keyboard, pointer, ScrollDelta};
 
 pub(crate) use widget_arena::*;
 pub(crate) use widget_state::*;
 
 use anymore::AnyDebug;
+
+/// A reference counted string slice.
+///
+/// This is a data-friendly way to represent strings in Masonry. Unlike `String`
+/// it cannot be mutated, but unlike `String` it can be cheaply cloned.
+pub type ArcStr = std::sync::Arc<str>;
 
 /// Actions are emitted by Masonry widgets when a user input needs to be handled by the application.
 ///
